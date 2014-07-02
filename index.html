@@ -1,0 +1,228 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>小李子微信</title> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head> 
+<body> 
+	<h2>您的恋爱进度:</h2> 
+	<progress id="prog" value="0" max="100"></progress>  
+	<!-- <input id="startBtn" type="button" value="start" onclick="startProgress()"/> -->
+	<strong id="numValue">0%</strong> 
+</body> 
+
+<script type="text/javascript"> 
+	var 小李子的list = [
+		"手牵手压马路",
+		"一起坐摩天轮",
+		"一起去教堂",
+		"一起养一条小狗",
+		"一起看日出日落",
+		"一起吃冰激凌",
+		"一起看烟火",
+		"一起看电影",
+		"一起堆雪人",
+		"一起做顿饭",
+		"送对方惊喜",
+		"一起去捡贝壳",
+		"一起喝醉",
+		"一起种一种花",
+		"吃完饭一起刷碗",
+		"一起淋雨",
+		"一起唱首歌",
+		"一起看一次演唱会",
+		"一起去天台看星星",
+		"互相写信",
+		"穿情侣装逛街",
+		"一起喝咖啡",
+		"一起爬山",
+		"一起坐过山车",
+		"一起滑冰",
+		"一起放风筝",
+		"一起进鬼屋",
+		"一起买一张彩票",
+		"比赛啃骨头",
+		"教我一项你的特长",
+		"整晚不睡觉打电话唠嗑",
+		"一起去放生",
+		"一起在河里放纸船",
+		"一起放孔明灯",
+		"一起去寺庙里祈福",
+		"一起在树下埋下我们的约定",
+		"陪对方过生日",
+		"一起去一趟海南的天涯海角",
+		"一起赏月",
+		"一起去看樱花",
+		"雨中漫步",
+		"一起荡秋千",
+		"故事哄我入睡",
+		"一起沿铁轨走",
+		"在树上刻下我们的约定",
+		"看你打一场比赛",
+		"一起露营",
+		"为对方做早餐",
+		"一起去DIY蛋糕",
+		"为你系围脖",
+		"一起看埃菲尔铁塔 在塔下接吻",
+		"一起去看海",
+		"唱歌给对方听",
+		"一起去我们的小学 初中 高中",
+		"一起合照",
+		"比赛吃西瓜 用勺吃的那种",
+		"一起打雪仗",
+		"一起去做义工",
+		"看你打台球",
+		"一起撮合成一对情侣",
+		"背靠背听歌",
+		"一起打扑克",
+		"闭上眼让对方牵着过马路",
+		"一起看冰灯",
+		"靠你肩膀睡觉",
+		"比赛吹气球",
+		"一起包饺子",
+		"一起坐一辆从没坐过的车 在不认识的地方下车到处逛",
+		"一起去孤儿院，敬老院",
+		"一起去看海豚",
+		"把你打扮成女生 我扮成男生一次",
+		"和你玩捉迷藏",
+		"以喝交杯酒的方式喝东西",
+		"去拍一次婚纱照",
+		"用沙子做堡垒",
+		"背着我走一段路",
+		"一起去划船",
+		"一起去医院看新生儿",
+		"一起坐火车去一个当天就能回来的地方",
+		"一起去吃自助餐 必须扶墙进去扶墙出来",
+		"送对方回家到家门口那种",
+		"用泥巴做两个小人 我们的形象",
+		"为你刮胡子",
+		"在冬天共用一副手套",
+		"生病的时候陪对方",
+		"一起去捡落叶",
+		"写一篇关于我的小文",
+		"情侣纹身",
+		"一起跨年 通宵守岁",
+		"穿你的衣服躺在你怀里看球赛",
+		"假装当陌生人一天",
+		"为你织一件东西",
+		"教我玩一个你会的游戏",
+		"专心为我做一件事 哪怕很不起眼",
+		"为我专心做一件你很不喜欢的事",
+		"在公共场合一起喝哇哈哈",
+		"在你的父母面前保护我一次",
+		"为我挡酒",
+		"在朋友面前大方介绍我",
+		"白头偕老"
+	]
+	var currProgress = 0; 
+	var done = false; 
+	var total = 100; 
+	var prBar = document.getElementById("prog"); 
+	var val = document.getElementById("numValue");
+	var 小李子的list_checked; 
+	if (window.localStorage) {
+		console.log("Local Storage is supported\n");
+		if (window.localStorage["小李子_微信本地储存"]) {
+			console.log("data存在");
+			小李子的list_checked = JSON.parse(window.localStorage["小李子_微信本地储存"]);
+		}
+		else{ // 初始化  小李子的list_checked
+			console.log("data不存在")
+			小李子的list_checked = [];
+			for(var i = 0; i < 小李子的list.length; i++){
+				小李子的list_checked.push(false); // all checkbox are unchecked
+			}
+			window.localStorage["小李子_微信本地储存"] = JSON.stringify(小李子的list_checked);
+		}
+	}
+	else{
+		alert("Local Storage is not supported\n");
+		小李子的list_checked = [];
+		for(var i = 0; i < 小李子的list.length; i++){
+			小李子的list_checked.push(false); // all checkbox are unchecked
+		}
+	}
+	/*
+	function startProgress() { 
+		var prBar = document.getElementById("prog"); 
+		var startButt = document.getElementById("startBtn"); 
+		var val = document.getElementById("numValue"); 
+		prBar.value = currProgress; 
+		val.innerHTML = " " + Math.round((currProgress/total)*100) + "%"; 
+
+		currProgress++; 
+		if(currProgress>100) done=true; 
+		if(!done) 
+		    setTimeout("startProgress()", 100); 
+		else     
+		{ 
+		    done = false; 
+		    currProgress = 0; 
+		} 
+	}
+	//startProgress(); 
+	*/
+
+
+   /*
+	* format list
+	*/ 
+	var formatList = function(list){
+		var ol = document.createElement("ol");
+
+		for(var i = 0; i < list.length; i++){
+			var li = document.createElement("li");
+			ol.appendChild(li);
+
+			var p = document.createElement("p");
+			p.innerHTML = list[i];
+			li.appendChild(p);
+
+			var checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.checked = 小李子的list_checked[i];
+			checkbox.index = i; // save index
+			li.appendChild(checkbox);
+			if (checkbox.checked) {currProgress++};
+
+			checkbox.onclick = function(){
+				小李子的list_checked[this.index] = !小李子的list_checked[this.index];
+				if (小李子的list_checked[this.index]) {
+					currProgress++;
+				}
+				else{
+					currProgress--;
+				}
+				prBar.value = currProgress; 
+				val.innerHTML = " " + Math.round((currProgress/total)*100) + "%"; 
+
+				if (window.localStorage) {
+					window.localStorage["小李子_微信本地储存"] = JSON.stringify(小李子的list_checked);
+				}
+			}
+		}
+		document.body.appendChild(ol);
+
+		// set progress bar
+		prBar.value = currProgress; 
+		val.innerHTML = " " + Math.round((currProgress/total)*100) + "%"; 
+	}
+
+	formatList(小李子的list);
+</script> 
+</html> 
+
+
+
+
+
+
+
+
+
+
